@@ -63,6 +63,11 @@ done
 finder.sh "$WRITEDIR" "$WRITESTR" > /tmp/assignment4-result.txt
 OUTPUTSTRING=$(cat /tmp/assignment4-result.txt)
 
+# Print debugging information
+echo "Contents of assignment4-result.txt:"
+cat /tmp/assignment4-result.txt
+echo "OUTPUTSTRING: $OUTPUTSTRING"
+
 # remove temporary directories
 rm -rf /tmp/aeld-data
 
