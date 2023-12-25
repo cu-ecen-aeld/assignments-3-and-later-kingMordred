@@ -71,6 +71,7 @@ echo "OUTPUTSTRING: $OUTPUTSTRING"
 # remove temporary directories
 rm -rf /tmp/aeld-data
 
+MATCHSTR="The number of files are 10 and the number of matching lines are 10"
 if [[ $OUTPUTSTRING == *"$MATCHSTR"* ]]; then
     echo "success"
     exit 0
