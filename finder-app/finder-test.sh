@@ -66,7 +66,7 @@ OUTPUTSTRING=$(finder.sh "$WRITEDIR" "$WRITESTR" > /tmp/assignment4-result.txt)
 rm -rf /tmp/aeld-data
 
 set +e
-echo ${OUTPUTSTRING} | grep "${MATCHSTR}"
+echo /tmp/assignment4-result.txt | grep "${MATCHSTR}"
 if [ $? -eq 0 ]; then
 	echo "success"
 	exit 0
