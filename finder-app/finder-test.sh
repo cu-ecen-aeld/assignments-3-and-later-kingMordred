@@ -60,18 +60,16 @@ do
 	writer "$WRITEDIR/${username}$i.txt" "$WRITESTR"
 done
 
-#finder.sh "$WRITEDIR" "$WRITESTR" > /tmp/assignment4-result.txt
-OUTPUTSTRING=$(finder.sh "$WRITEDIR" "$WRITESTR")
+finder.sh "$WRITEDIR" "$WRITESTR" > /tmp/assignment4-result.txt
+OUTPUTSTRING=$(cat /tmp/assignment4-result.txt)
 
 # remove temporary directories
 rm -rf /tmp/aeld-data
 
-set +e
-echo /tmp/assignment4-result.txt | grep "${MATCHSTR}"
-if [ $? -eq 0 ]; then
-	echo "success"
-	exit 0
+if [[ $OUTPUTSTRING == *"$MATCHSTR"* ]]; then
+    echo "success"
+    exit 0
 else
-	echo "failed: expected  ${MATCHSTR} in ${OUTPUTSTRING} but instead found"
-	exit 1
+    echo "failed: expected $MATCHSTR in $OUTPUTSTRING but instead found"
+    exit 1
 fi
