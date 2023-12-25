@@ -72,7 +72,7 @@ echo "OUTPUTSTRING: $OUTPUTSTRING"
 rm -rf /tmp/aeld-data
 
 MATCHSTR="The number of files are 10 and the number of matching lines are 10"
-if [[ $OUTPUTSTRING == *"$MATCHSTR"* ]]; then
+if [[ $OUTPUTSTRING == $MATCHSTR ]]; then
     echo "success"
     exit 0
 else
