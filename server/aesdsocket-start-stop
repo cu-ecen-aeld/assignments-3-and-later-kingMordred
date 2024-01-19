@@ -1,39 +1,30 @@
 #!/bin/bash
 
-### BEGIN INIT INFO
-# Provides:          aesdsocket
-# Required-Start:    $local_fs $network $remote_fs
-# Required-Stop:     $local_fs $network $remote_fs
-# Default-Start:     2 3 4 5
-# Default-Stop:      0 1 6
-# Short-Description: AESD Socket Daemon
-# Description:       Start/stop the aesdsocket daemon
-### END INIT INFO
+# Path to aesdsocket binary
+AESDSOCKET_BIN="/usr/bin/aesdsocket"
 
-# Adjust these paths accordingly
-AESDSOCKET_BIN="./aesdsocket"
-AESDSOCKET_PIDFILE="/var/run/aesdsocket.pid"
+# PID file for the daemon
+PIDFILE="/var/run/aesdsocket.pid"
 
-case "$1" in
-  start)
+# Function to start the daemon
+start_daemon() {
     echo "Starting aesdsocket..."
-    start-stop-daemon --start --background --make-pidfile --pidfile $AESDSOCKET_PIDFILE \
+    start-stop-daemon --start --background --make-pidfile --pidfile $PIDFILE \
                       --exec $AESDSOCKET_BIN -- -d
-    ;;
-  stop)
-    echo "Stopping aesdsocket..."
-    start-stop-daemon --stop --pidfile $AESDSOCKET_PIDFILE --signal SIGTERM
-    ;;
-  restart)
-    $0 stop
-    sleep 1
-    $0 start
-    ;;
-  *)
-    echo "Usage: $0 {start|stop|restart}"
-    exit 1
-    ;;
-esac
+}
 
-exit 0
+# Function to stop the daemon
+stop_daemon() {
+    echo "Stopping aesdsocket..."
+    start-stop-daemon --stop --pidfile $PIDFILE --signal SIGTERM
+}
+
+if [ $# -eq 0 ]; then
+    start_daemon
+fi
+
+trap stop_daemon INT
+
+# Wait for the daemon to exit
+wait
 
