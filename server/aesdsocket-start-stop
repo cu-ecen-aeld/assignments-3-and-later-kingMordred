@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 AESDSOCKET_BIN="aesdsocket"
 AESDSOCKET_PIDFILE="/var/run/aesdsocket.pid"
