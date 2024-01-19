@@ -1,0 +1,28 @@
+#!/bin/bash
+
+AESDSOCKET_BIN="./aesdsocket"
+AESDSOCKET_PIDFILE="/var/run/aesdsocket.pid"
+
+case "$1" in
+  start)
+    echo "Starting aesdsocket..."
+    start-stop-daemon --start --background --make-pidfile --pidfile $AESDSOCKET_PIDFILE \
+                      --exec $AESDSOCKET_BIN -- -d
+    ;;
+  stop)
+    echo "Stopping aesdsocket..."
+    start-stop-daemon --stop --pidfile $AESDSOCKET_PIDFILE --signal SIGTERM
+    ;;
+  restart)
+    $0 stop
+    sleep 1
+    $0 start
+    ;;
+  *)
+    echo "Usage: $0 {start|stop|restart}"
+    exit 1
+    ;;
+esac
+
+exit 0
+
