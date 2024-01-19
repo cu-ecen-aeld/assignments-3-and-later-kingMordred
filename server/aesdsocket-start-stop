@@ -1,30 +1,28 @@
 #!/bin/bash
 
-# Path to aesdsocket binary
-AESDSOCKET_BIN="/usr/bin/aesdsocket"
+AESDSOCKET_BIN="aesdsocket"
+AESDSOCKET_PIDFILE="/var/run/aesdsocket.pid"
 
-# PID file for the daemon
-PIDFILE="/var/run/aesdsocket.pid"
-
-# Function to start the daemon
-start_daemon() {
+case "$1" in
+  start)
     echo "Starting aesdsocket..."
-    start-stop-daemon --start --background --make-pidfile --pidfile $PIDFILE \
+    start-stop-daemon --start --background --make-pidfile --pidfile $AESDSOCKET_PIDFILE \
                       --exec $AESDSOCKET_BIN -- -d
-}
-
-# Function to stop the daemon
-stop_daemon() {
+    ;;
+  stop)
     echo "Stopping aesdsocket..."
-    start-stop-daemon --stop --pidfile $PIDFILE --signal SIGTERM
-}
+    start-stop-daemon --stop --pidfile $AESDSOCKET_PIDFILE --signal SIGTERM
+    ;;
+  restart)
+    $0 stop
+    sleep 1
+    $0 start
+    ;;
+  *)
+    echo "Usage: $0 {start|stop|restart}"
+    exit 1
+    ;;
+esac
 
-if [ $# -eq 0 ]; then
-    start_daemon
-fi
-
-trap stop_daemon INT
-
-# Wait for the daemon to exit
-wait
+exit 0
 
